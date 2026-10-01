@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Libreta de fiado</title>
+<style>
+:root{
+  --bg:#f4f7f5;
+  --card:#ffffff;
+  --card-soft:#f8faf9;
+  --tx:#17231d;
+  --mut:#66736c;
+  --ac:#16734a;
+  --ac-strong:#0f5d3b;
+  --on-ac:#ffffff;
+  --ac2:#e6f5ed;
+  --red:#c63d36;
+  --red-soft:#fff0ee;
+  --bd:#dce5df;
+  --shadow:0 8px 24px rgba(23,35,29,.07);
+  --shadow-sm:0 3px 10px rgba(23,35,29,.06);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101713;--card:#19221d;--card-soft:#202b25;--tx:#eef5f0;
+    --mut:#a8b6ad;--ac:#59c990;--ac-strong:#72d9a4;--ac2:#1d392c;--on-ac:#06291a;
+    --red:#ff8b82;--red-soft:#3a211f;--bd:#2d3a33;
+    --shadow:0 10px 28px rgba(0,0,0,.22);--shadow-sm:0 4px 12px rgba(0,0,0,.18)
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101713;--card:#19221d;--card-soft:#202b25;--tx:#eef5f0;
+  --mut:#a8b6ad;--ac:#59c990;--ac-strong:#72d9a4;--ac2:#1d392c;--on-ac:#06291a;
+  --red:#ff8b82;--red-soft:#3a211f;--bd:#2d3a33;
+  --shadow:0 10px 28px rgba(0,0,0,.22);--shadow-sm:0 4px 12px rgba(0,0,0,.18)
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(22,115,74,.10),transparent 34%),
+    var(--bg);
+  color:var(--tx);
+  font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased
+}
+main{max-width:600px;margin:0 auto;padding:20px 16px 28px}
+h1{
+  font-size:26px;line-height:1.15;letter-spacing:-.03em;
+  margin:4px 0 18px;font-weight:800
+}
+.sum{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.box{
+  position:relative;overflow:hidden;background:var(--card);
+  border:1px solid var(--bd);border-radius:18px;padding:15px;
+  box-shadow:var(--shadow-sm)
+}
+.box:before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--ac);border-radius:4px
+}
+.box:first-child:before{background:var(--red)}
+.box small{color:var(--mut);display:block;font-size:12px;font-weight:600;letter-spacing:.01em}
+.box b{display:block;font-size:25px;line-height:1.1;margin:5px 0 3px;letter-spacing:-.025em}
+.red{color:var(--red)}.grn{color:var(--ac)}
+details{
+  background:var(--card);border:1px solid var(--bd);border-radius:18px;
+  padding:15px;margin-bottom:16px;box-shadow:var(--shadow)
+}
+summary{
+  font-weight:750;cursor:pointer;list-style:none;
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:28px
+}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"⌄";font-size:18px;color:var(--mut);transition:transform .2s}
+details:not([open]) summary:after{transform:rotate(-90deg)}
+label{display:block;font-size:12px;font-weight:650;color:var(--mut);margin:14px 0 5px}
+input{
+  width:100%;padding:12px 13px;border:1px solid var(--bd);border-radius:12px;
+  background:var(--card-soft);color:var(--tx);font:inherit;outline:none;
+  transition:border-color .15s,box-shadow .15s,background .15s
+}
+input:focus{
+  border-color:var(--ac);background:var(--card);
+  box-shadow:0 0 0 3px rgba(22,115,74,.13)
+}
+input::placeholder{color:var(--mut);opacity:.72}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button,.btn{
+  font:inherit;font-size:14px;padding:10px 12px;border-radius:11px;
+  border:1px solid var(--bd);background:var(--card);color:var(--tx);
+  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;
+  justify-content:center;min-height:42px;transition:transform .12s,box-shadow .12s,background .12s
+}
+button:active,.btn:active{transform:scale(.98)}
+button:hover,.btn:hover{box-shadow:var(--shadow-sm)}
+.main{
+  background:var(--ac);color:var(--on-ac);border-color:var(--ac);width:100%;
+  margin-top:14px;padding:13px;font-weight:750;min-height:46px;
+  box-shadow:0 5px 14px rgba(22,115,74,.22)
+}
+.main:hover{background:var(--ac-strong);border-color:var(--ac-strong)}
+.tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 14px;
+  padding:4px;background:var(--card-soft);border:1px solid var(--bd);border-radius:14px
+}
+.tabs button{
+  flex:1;padding:10px;font-weight:700;border-color:transparent;
+  background:transparent;min-height:42px
+}
+.tabs button.on{background:var(--card);color:var(--ac);border-color:var(--bd);box-shadow:var(--shadow-sm)}
+.card{
+  background:var(--card);border:1px solid var(--bd);border-radius:17px;
+  padding:15px;margin-bottom:10px;box-shadow:var(--shadow-sm)
+}
+.row{display:flex;justify-content:space-between;gap:14px;align-items:center}
+.row b{font-size:16px;line-height:1.25}
+.amt{font-weight:800;font-size:20px;white-space:nowrap;letter-spacing:-.02em}
+.mut{color:var(--mut);font-size:13px}
+.acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.acts .btn,.acts button{flex:0 1 auto}
+.wa{
+  background:var(--ac2);color:var(--ac);border-color:rgba(22,115,74,.35);
+  font-weight:750;flex:1!important;text-align:center
+}
+.empty{
+  text-align:center;color:var(--mut);padding:38px 18px;
+  background:var(--card);border:1px dashed var(--bd);border-radius:16px
+}
+#err{color:var(--red);background:var(--red-soft);font-size:13px;min-height:0;margin-top:10px;border-radius:10px}
+#err:not(:empty){padding:9px 10px}
+#st{color:var(--mut);font-size:12px;text-align:center;margin-top:18px}
+@media (max-width:420px){
+  main{padding:16px 12px 24px}
+  h1{font-size:24px}
+  .box{padding:13px}
+  .box b{font-size:22px}
+  .card{padding:13px}
+  .acts button{flex:1}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;transition:none!important}
+}
+</style></head><body><main>
+<h1>📒 Libreta de fiado</h1>
+<div class="sum">
+ <div class="box"><small>Por cobrar</small><b class="red" id="s1">$0.00</b><small id="s1n"></small></div>
+ <div class="box"><small>Ya cobrado</small><b class="grn" id="s2">$0.00</b><small id="s2n"></small></div>
+</div>
+<details id="fm" open><summary>＋ Nueva deuda</summary>
+ <label for="n">Nombre</label><input id="n" placeholder="Ej: Doña Marta" autocomplete="off">
+ <label for="t">WhatsApp (opcional)</label><input id="t" inputmode="tel" placeholder="6123-4567 o con código de país">
+ <div class="g2"><div><label for="m">Total de la deuda ($)</label><input id="m" type="number" inputmode="decimal" step="0.01" min="0"></div>
+ <div><label for="f">Fecha de la deuda</label><input id="f" type="date"></div></div>
+ <label for="o">Nota (opcional)</label><input id="o" placeholder="Qué se fió" autocomplete="off">
+ <div id="err"></div>
+ <button class="main" id="add">Guardar deuda</button>
+</details>
+<div class="tabs"><button data-tab="debe" id="tb1"></button><button data-tab="pagado" id="tb2"></button></div>
+<div id="list"></div>
+<div id="st"></div>
+</main>
+<script>
+let items=[],tab='debe',del=null,ref=null,dirty=false,first=true;
+const $=s=>document.querySelector(s);
+const L=(navigator.language||'').toLowerCase().startsWith('es')?navigator.language:'es-PA';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>'$'+Number(n).toLocaleString(L,{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString(L,{day:'numeric',month:'short',year:'numeric'}):'';
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const days=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T12:00:00'))/864e5));
+function wa(it){
+ let t=(it.tel||'').replace(/\D/g,'');if(t.length==8)t='507'+t;
+ const m='Hola '+it.nombre+', te escribo para recordarte amablemente que tienes un saldo pendiente de '+money(it.monto)+' desde el '+fmt(it.fecha)+'. Quedo atento a tu pago, ¡gracias!';
+ return 'https://wa.me/'+t+'?text='+encodeURIComponent(m);
+}
+function save(){
+ try{localStorage.setItem('fiados',JSON.stringify(items))}catch(e){}
+ if(ref)ref.set({items}).catch(()=>{$('#st').textContent='No se pudo guardar en la nube; queda en este navegador.'});
+ else dirty=true;
+}
+function render(){
+ const d=items.filter(i=>i.estado!='pagado').sort((a,b)=>a.fecha<b.fecha?-1:1);
+ const p=items.filter(i=>i.estado=='pagado').sort((a,b)=>(a.pagado||'')<(b.pagado||'')?1:-1);
+ const sum=a=>a.reduce((s,i)=>s+i.monto,0);
+ $('#s1').textContent=money(sum(d));$('#s1n').textContent=d.length+(d.length==1?' deudor':' deudores');
+ $('#s2').textContent=money(sum(p));$('#s2n').textContent=p.length+(p.length==1?' cancelada':' canceladas');
+ $('#tb1').textContent='Deudores ('+d.length+')';$('#tb2').textContent='Cancelados ('+p.length+')';
+ $('#tb1').className=tab=='debe'?'on':'';$('#tb2').className=tab=='pagado'?'on':'';
+ const a=tab=='debe'?d:p;
+ $('#list').innerHTML=a.length?a.map(i=>{
+  const nota=i.nota?'<div class="mut">'+esc(i.nota)+'</div>':'';
+  if(tab=='debe')return '<div class="card"><div class="row"><b>'+esc(i.nombre)+'</b><span class="amt red">'+money(i.monto)+'</span></div><div class="mut">Desde el '+fmt(i.fecha)+' · hace '+days(i.fecha)+' días</div>'+nota+
+   '<div class="acts"><a class="btn wa" target="_blank" rel="noopener" href="'+esc(wa(i))+'">💬 Recordar por WhatsApp</a><button data-a="pay" data-id="'+i.id+'">✔ Pagó</button><button data-a="del" data-id="'+i.id+'">'+(del==i.id?'¿Seguro?':'🗑')+'</button></div></div>';
+  return '<div class="card"><div class="row"><b>'+esc(i.nombre)+'</b><span class="amt grn">'+money(i.monto)+'</span></div><div class="mut">Deuda del '+fmt(i.fecha)+' · pagada el '+fmt(i.pagado)+'</div>'+nota+
+   '<div class="acts"><button data-a="open" data-id="'+i.id+'">↩ Reabrir</button><button data-a="del" data-id="'+i.id+'">'+(del==i.id?'¿Seguro?':'🗑')+'</button></div></div>';
+ }).join(''):'<div class="empty">'+(tab=='debe'?'Nadie te debe por ahora 🎉':'Aún no hay deudas canceladas')+'</div>';
+}
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-tab]');if(t){tab=t.dataset.tab;render();return}
+ const b=e.target.closest('[data-a]');if(!b)return;
+ const id=b.dataset.id,it=items.find(x=>x.id==id),a=b.dataset.a;if(!it)return;
+ if(a=='pay'){it.estado='pagado';it.pagado=today()}
+ else if(a=='open'){it.estado='debe';delete it.pagado}
+ else if(a=='del'){
+  if(del!=id){del=id;render();setTimeout(()=>{if(del==id){del=null;render()}},3000);return}
+  items=items.filter(x=>x!==it);del=null;
+ }
+ save();render();
+});
+$('#add').onclick=()=>{
+ const n=$('#n').value.trim(),m=parseFloat($('#m').value);
+ if(!n||!(m>0)){$('#err').textContent='Pon el nombre y un total mayor a 0.';return}
+ $('#err').textContent='';
+ items.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),nombre:n,tel:$('#t').value.trim(),monto:m,fecha:$('#f').value||today(),nota:$('#o').value.trim(),estado:'debe'});
+ ['n','t','m','o'].forEach(k=>$('#'+k).value='');$('#f').value=today();
+ tab='debe';$('#fm').open=false;save();render();
+};
+$('#f').value=today();
+try{items=JSON.parse(localStorage.getItem('fiados')||'[]')}catch(e){items=[]}
+$('#st').textContent='Guardado en este navegador.';
+render();
+(async()=>{
+ try{
+  const c=window.claude;if(!c||!c.use)return;
+  const [u,d]=await Promise.all([c.use('user'),c.use('db')]);
+  if(!u||!d)return;
+  const id=await u.id();if(!id)return;
+  const r=d.collection('data/users/'+id).doc('libreta');
+  r.onSnapshot(s=>{
+   const rem=s.exists?(s.data().items||[]):[];
+   if(first){
+    first=false;
+    if(dirty||!s.exists){const mine=new Set(items.map(x=>x.id));items=rem.filter(x=>!mine.has(x.id)).concat(items);if(items.length)r.set({items}).catch(()=>{})}
+    else items=rem;
+   }else items=rem;
+   try{localStorage.setItem('fiados',JSON.stringify(items))}catch(e){}
+   ref=r;$('#st').textContent='Guardado en tu cuenta (privado).';render();
+  },()=>{ref=null;$('#st').textContent='Guardado en este navegador.'});
+ }catch(e){}
+})();
+</script></body></html>
